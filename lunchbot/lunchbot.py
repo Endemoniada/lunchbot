@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
+import urllib
+import muncher
+
 from twisted.words.protocols import irc
 from twisted.internet import protocol, reactor
 
@@ -43,9 +47,8 @@ class LunchBot(irc.IRCClient):
             self.msg(user, msg_slap)
 
         # Check if message is directed to LunchBot
-        if message.startswith('.lunch'):
-            msg = 'No lunch menu today, sorry :('
-            self.msg(channel, msg)
+        if message.startswith('!lunch'):
+            self.msg(channel, muncher.get_lunch())
 
     def alterCollidedNick(self, nickname):
         """ If our name is taken; alter the name """
